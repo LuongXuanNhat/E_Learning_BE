@@ -6,7 +6,7 @@ exports.getFeedbacks = async (req, res) => {
     res.json(feedbacks);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.getFeedback = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.createFeedback = async (req, res) => {
     res.status(201).json(feedback);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateFeedback = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -60,6 +60,6 @@ exports.deleteFeedback = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };

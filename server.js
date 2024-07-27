@@ -3,17 +3,31 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swagger/swagger'); // Import Swagger configuration
 const { sequelize } = require('./models'); // Import Sequelize models
 require('dotenv').config(); // Load environment variables
+const { setupSocketServer } = require('./socketServer');
+const http = require('http');
 
 const app = express();
 
+//Socket 
+const server = http.createServer(app);
+const io = setupSocketServer(server);
 // Middleware
 app.use(express.json());
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Swagger UI setup
 swaggerDocs(app)
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 const classRoutes = require('./routes/classRoutes');
 const enrollmentRoutes = require('./routes/enrollmentRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
@@ -27,6 +41,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 
 app.use('/api/users', userRoutes);
+app.use('/api/courses', courseRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/attendances', attendanceRoutes);
@@ -47,10 +62,9 @@ app.listen(PORT, async () => {
     console.log('Connection has been established successfully.');
     console.log(`Server is running on port ${PORT}`);
      // Synchronize database schema
-     await sequelize.sync({ alter: true });
-     console.log('Database synchronized successfully.');
- 
-     console.log(`Server is running on port ${PORT}`);
+    //  await sequelize.sync({ alter: true });
+    //  console.log('Database synchronized successfully.');
+    //  console.log(`Server is running on port ${PORT}`);
    } catch (error) {
      console.error('Unable to connect to the database or synchronize:', error);
    }

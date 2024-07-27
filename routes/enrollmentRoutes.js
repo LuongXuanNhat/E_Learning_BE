@@ -60,7 +60,7 @@ router.get('/:id', enrollmentController.getEnrollment);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/EnrollmentInput'
+ *             $ref: '#/components/schemas/Enrollment'
  *     responses:
  *       201:
  *         description: Created

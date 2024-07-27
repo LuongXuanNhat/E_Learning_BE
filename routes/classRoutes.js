@@ -29,6 +29,23 @@ router.get('/', classController.getAllClasses);
 
 /**
  * @swagger
+ * /api/classes/list:
+ *   get:
+ *     summary: Retrieve a list of regiscourse classes
+ *     tags: [Classes]
+ *     responses:
+ *       200:
+ *         description: A list of classes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Class'
+ */
+router.get('/list',classController.getRegisterCourse);
+/**
+ * @swagger
  * /api/classes/{id}:
  *   get:
  *     summary: Retrieve a single class by ID
@@ -60,7 +77,7 @@ router.get('/:id', classController.getClassById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ClassInput'
+ *             $ref: '#/components/schemas/Class'
  *     responses:
  *       201:
  *         description: Created
@@ -93,9 +110,32 @@ router.post('/', classController.createClass);
  *       400:
  *         description: Bad request
  *       404:
- *         description: Class not found
+ *         description: Không tìm thấy lớp
  */
 router.put('/:id', classController.updateClass);
+
+
+/**
+ * @swagger
+ * /api/classes/list/{id}:
+ *   get:
+ *     summary: Update a class by ID
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: get information success 
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Không tìm thấy lớp
+ */
+router.get('/list/:id', classController.getRegisterdCourse);
 
 /**
  * @swagger
@@ -113,8 +153,10 @@ router.put('/:id', classController.updateClass);
  *       200:
  *         description: Deleted
  *       404:
- *         description: Class not found
+ *         description: Không tìm thấy lớp
  */
 router.delete('/:id', classController.deleteClass);
+
+
 
 module.exports = router;

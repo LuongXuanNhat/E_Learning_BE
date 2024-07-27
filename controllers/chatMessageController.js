@@ -6,7 +6,7 @@ exports.getChatMessages = async (req, res) => {
     res.json(chatMessages);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.getChatMessage = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.createChatMessage = async (req, res) => {
     res.status(201).json(chatMessage);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateChatMessage = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -60,6 +60,6 @@ exports.deleteChatMessage = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };

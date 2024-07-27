@@ -6,7 +6,7 @@ exports.getBlogs = async (req, res) => {
     res.json(blogs);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.getBlog = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.createBlog = async (req, res) => {
     res.status(201).json(blog);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateBlog = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -60,6 +60,6 @@ exports.deleteBlog = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };

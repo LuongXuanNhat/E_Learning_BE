@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     chuc_vu: DataTypes.STRING,
     email: { type: DataTypes.STRING, unique: true },
     password: DataTypes.STRING,
-    role: DataTypes.STRING,
+    role: {
+      type: DataTypes.ENUM,
+      values: ['ADMIN', 'SUB_TEACHER', 'STUDENT','EDUCATION','ADVISOR','SECRETARY'], // Thay đổi các giá trị ENUM phù hợp với yêu cầu của bạn
+    },
     avatar_url: DataTypes.STRING,
     is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
     created_at: DataTypes.DATE,
@@ -19,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
     User.hasMany(models.Class, { as: 'Advisor', foreignKey: 'advisor_id' });
+    // User.hasMany(models.Class, { as: 'ClassLeader', foreignKey: 'class_leader' });
     User.hasMany(models.Enrollment, { foreignKey: 'student_id' });
     User.hasMany(models.Attendance, { foreignKey: 'student_id' });
     User.hasMany(models.Feedback, { foreignKey: 'user_id' });
