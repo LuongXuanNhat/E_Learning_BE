@@ -6,7 +6,7 @@ exports.getAttendances = async (req, res) => {
     res.json(attendances);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -20,17 +20,20 @@ exports.getAttendance = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
 exports.createAttendance = async (req, res) => {
   try {
     const attendance = await Attendance.create(req.body);
+    if(!req.body.create_at){
+      attendance.create_at = new Date();
+    }
     res.status(201).json(attendance);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -45,7 +48,7 @@ exports.updateAttendance = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -60,6 +63,6 @@ exports.deleteAttendance = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };

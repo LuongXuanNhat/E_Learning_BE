@@ -6,7 +6,7 @@ exports.getTokens = async (req, res) => {
     res.json(tokens);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.getToken = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.createToken = async (req, res) => {
     res.status(201).json(token);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateToken = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
 
@@ -60,6 +60,6 @@ exports.deleteToken = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };

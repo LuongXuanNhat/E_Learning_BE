@@ -8,7 +8,7 @@ exports.getCourses = async (req, res) => {
     res.json(courses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
   }
 };
 
@@ -22,7 +22,7 @@ exports.getCourse = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
   }
 };
 
@@ -32,7 +32,7 @@ exports.createCourse = async (req, res) => {
     res.status(201).json(course);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
   }
 };
 
@@ -47,7 +47,7 @@ exports.updateCourse = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
   }
 };
 
@@ -62,6 +62,6 @@ exports.deleteCourse = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
   }
 };

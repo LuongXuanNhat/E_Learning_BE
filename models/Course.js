@@ -4,7 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     course_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true // or true, depending on your default value
+    },
     start_date: DataTypes.DATE,
     end_date: DataTypes.DATE,
     registration_deadline: DataTypes.DATE,

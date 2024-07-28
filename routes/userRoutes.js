@@ -29,6 +29,41 @@ router.get('/', userController.getUsers);
 
 /**
  * @swagger
+ * /api/users/employee:
+ *   get:
+ *     summary: GET lIST USER WHICH HAS ROLE EMPLOYEE
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.get('/employee', userController.getEmployees);
+
+/**
+ * @swagger
+ * /api/users/student:
+ *   get:
+ *     summary: GET lIST USER WHICH HAS ROLE STUDENT
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.get('/student', userController.getStudents);
+/**
+ * @swagger
  * /api/users/{id}:
  *   get:
  *     summary: Retrieve a single user by ID
@@ -60,7 +95,14 @@ router.get('/:id', userController.getUser);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserInput'
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 example: password123
  *     responses:
  *       201:
  *         description: Created
@@ -116,5 +158,36 @@ router.put('/:id', userController.updateUser);
  *         description: User not found
  */
 router.delete('/:id', userController.deleteUser);
+
+/**
+ * @swagger
+ * /api/users/login:
+ *   post:
+ *     summary: login account user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 example: password123
+ *     responses:
+ *       200:
+ *         description: Login and check password if correct
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.post('/login', userController.loginUser);
 
 module.exports = router;
