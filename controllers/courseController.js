@@ -1,13 +1,14 @@
-const db  = require('../models');
+const db = require("../models");
 const Course = db.Course;
 
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.findAll();
+    console.log(courses);
     res.json(courses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -17,11 +18,11 @@ exports.getCourse = async (req, res) => {
     if (course) {
       res.json(course);
     } else {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: "Course not found" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -31,7 +32,7 @@ exports.createCourse = async (req, res) => {
     res.status(201).json(course);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -42,11 +43,11 @@ exports.updateCourse = async (req, res) => {
       await course.update(req.body);
       res.json(course);
     } else {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: "Course not found" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -57,10 +58,10 @@ exports.deleteCourse = async (req, res) => {
       await course.destroy();
       res.status(204).send();
     } else {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: "Course not found" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };

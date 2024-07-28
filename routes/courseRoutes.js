@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const courseController = require('../controllers/courseController');
+const courseController = require("../controllers/courseController");
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ const courseController = require('../controllers/courseController');
  *               items:
  *                 $ref: '#/components/schemas/Course'
  */
-router.get('/', courseController.getCourses);
+router.get("/", courseController.getCourses);
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.get('/', courseController.getCourses);
  *             schema:
  *               $ref: '#/components/schemas/Course'
  */
-router.get('/:id', courseController.getCourse);
+router.get("/:id", courseController.getCourse);
 
 /**
  * @swagger
@@ -67,7 +67,7 @@ router.get('/:id', courseController.getCourse);
  *       400:
  *         description: Bad request
  */
-router.post('/', courseController.createCourse);
+router.post("/", courseController.createCourse);
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ router.post('/', courseController.createCourse);
  *       404:
  *         description: Course not found
  */
-router.put('/:id', courseController.updateCourse);
+router.put("/:id", courseController.updateCourse);
 
 /**
  * @swagger
@@ -115,6 +115,6 @@ router.put('/:id', courseController.updateCourse);
  *       404:
  *         description: Course not found
  */
-router.delete('/:id', courseController.deleteCourse);
+router.delete("/:id", courseController.deleteCourse);
 
 module.exports = router;
