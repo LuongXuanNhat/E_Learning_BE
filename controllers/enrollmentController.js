@@ -5,6 +5,7 @@ const Class = db.Class;
 const Course  = db.Course;
 
 const EnrollmentDTO = require('../DTO/EnrollmentDTO');
+const { DATE } = require('sequelize');
 exports.getEnrollments = async (req, res) => {
   try {
     const enrollments = await Enrollment.findAll();
@@ -79,3 +80,28 @@ exports.deleteEnrollment = async (req, res) => {
     res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
   }
 };
+
+
+// Cancel enrollment registration
+// take in userId and CourseID to find the enrollment, then delete the enrollment
+
+exports.cancelEnrollmentByUserIdAndCourseId = async (req, res) => {
+  try {
+    const enrollment = await Enrollment.findOne({ where: { student_id: req.params.student_id, course_id: req.params.course_id }});
+    if (enrollment) {
+      const course = await Course.findByPk(enrollment.course_id);
+      if(course && course.registration_date < Date.now()) {
+        await enrollment.destroy();
+        res.status(204).json(enrollment);
+      }else{
+        res.status(400).json({ message: 'Đăng kí không thể hủy khi ngày đăng kí đã qua' });
+      }
+    } else {
+      res.status(404).json({ message: 'Không tìm thấy đơn đăng kí' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Có gì đó đã xảy ra! ' });
+  }
+};
+

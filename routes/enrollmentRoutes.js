@@ -51,6 +51,35 @@ router.get('/:id', enrollmentController.getEnrollment);
 
 /**
  * @swagger
+ * /api/enrollments/user/{student_id}/course/{course_id}:
+ *   delete:
+ *     summary: Hủy đăng kí khóa học
+ *     tags: [Enrollments]
+ *     parameters:
+ *       - in: path
+ *         name: student_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *       - in: path
+ *         name: course_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course
+ *     responses:
+ *       204:
+ *         description: Enrollment successfully canceled
+ *       404:
+ *         description: Enrollment not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete('/user/:student_id/course/:course_id', enrollmentController.cancelEnrollmentByUserIdAndCourseId);
+
+/**
+ * @swagger
  * /api/enrollments:
  *   post:
  *     summary: Create a new enrollment
