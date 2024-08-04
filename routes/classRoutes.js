@@ -66,6 +66,35 @@ router.get('/list',classController.getRegisterCourse);
  */
 router.get('/:id', classController.getClassById);
 
+
+/**
+ * @swagger
+ * /api/classes/register/{id}:
+ *   get:
+ *     summary: Retrieve classes registered by user
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *     responses:
+ *       200:
+ *         description: A list of classes registered by user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Class'
+ *       404:
+ *         description: No classes found
+ */
+router.get('/register/:id', classController.getListclassRegisterbyUser);
+
+
 /**
  * @swagger
  * /api/classes:
@@ -77,10 +106,10 @@ router.get('/:id', classController.getClassById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Class'
+ *             $ref: '#/components/schemas/ClassInput'
  *     responses:
- *       201:
- *         description: Created
+ *       200:
+ *         description: Class created
  *       400:
  *         description: Bad request
  */
