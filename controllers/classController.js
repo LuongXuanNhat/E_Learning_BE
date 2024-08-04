@@ -4,6 +4,8 @@ const Course =db.Course;
 const User = db.User;
 const Enrollment = db.Enrollment;
 const ClassListDTO = require('../DTO/ClassListDTO');
+const ClassRegisterByUserDTO = require('../DTO/ClassRegisterByUserDTO');
+
 exports.getAllClasses = async (req, res) => {
   try {
     const classes = await Class.findAll();
@@ -146,13 +148,16 @@ exports.getRegisterCourse = async (req, res) => {
           console.log(`Course not found for class_id: ${classItem.class_id}`);
           return null;
         }
-7
-        console.log(">>> name: " + courseDetails.name);
+        // console.log(">>> name: " + courseDetails.name);
         const now = new Date();
         const registrationDeadline = new Date(courseDetails.registration_deadline);
         const isWithinRegistration = registrationDeadline >= now && courseDetails.status == true;
         const isOutOfDate = registrationDeadline < now && courseDetails.status == null;
-
+        // Ghi log chi tiết lớp học và điều kiện đăng ký
+        // console.log(`Class: ${classItem.class_id}, Advisor: ${classItem.advisor_id}, Course: ${classItem.course_id}`);
+        // console.log(`Course Details:`, courseDetails);
+        // console.log(`Registration Deadline: ${registrationDeadline}, Now: ${now}`);
+        // console.log(`isWithinRegistration: ${isWithinRegistration}, isOutOfDate: ${isOutOfDate}`);
         if (isWithinRegistration || isOutOfDate) {
           return new ClassListDTO(classItem, courseDetails, userDetails);
         }
@@ -164,7 +169,7 @@ exports.getRegisterCourse = async (req, res) => {
     const filteredClassListDetails = classListDetails.filter(item => item !== null);
 
     if (filteredClassListDetails.length === 0) {
-      return res.status(404).json({ message: "No eligible classes found" });
+      return res.status(200).json();
     }
 
     res.json(filteredClassListDetails);
@@ -223,3 +228,67 @@ exports.getRegisterdCourse = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+exports.getListclassRegisterbyUser = async (req,res) => {
+  
+    try {
+      const userId = req.params.id; 
+      const classes = await Class.findAll();
+      // console.log("check class s")
+      if (!classes || classes.length === 0) {
+        return res.status(404).json({ message: "No classes found" });
+      }
+  
+      const classListDetails = await Promise.all(classes.map(async (classItem) => {
+        let courseDetails = [];
+        let userDetails = [];
+        let isRegistered = false;
+
+        if (classItem.advisor_id) {
+          userDetails = await User.findByPk(classItem.advisor_id);
+        }
+  
+        if (classItem.course_id) {
+          courseDetails = await Course.findByPk(classItem.course_id);
+          if (!courseDetails) {
+            console.log(`Course not found for class_id: ${classItem.class_id}`);
+            return null;
+          }
+          // console.log(">>> name: " + courseDetails.name);
+          const enrollment = await Enrollment.findOne({ 
+            where: { student_id: userId, class_id: classItem.class_id } 
+          });
+          if (enrollment) {
+            isRegistered = true;
+          }
+          const now = new Date();
+          const registrationDeadline = new Date(courseDetails.registration_deadline);
+          const isWithinRegistration = registrationDeadline >= now && courseDetails.status == true;
+          const isOutOfDate = registrationDeadline < now && courseDetails.status == null;
+          // Ghi log chi tiết lớp học và điều kiện đăng ký
+          // console.log(`Class: ${classItem.class_id}, Advisor: ${classItem.advisor_id}, Course: ${classItem.course_id}`);
+          // console.log(`Course Details:`, courseDetails);
+          // console.log(`Registration Deadline: ${registrationDeadline}, Now: ${now}`);
+          // console.log(`isWithinRegistration: ${isWithinRegistration}, isOutOfDate: ${isOutOfDate}`);
+        if (isWithinRegistration || isOutOfDate) {
+          return new ClassRegisterByUserDTO(classItem, courseDetails, userDetails, isRegistered);
+        }
+      }
+
+      return null;
+    }));
+
+  
+      const filteredClassListDetails = classListDetails.filter(item => item !== null);
+  
+      if (filteredClassListDetails.length === 0) {
+        return res.status(200).json([]);
+      }
+  
+      res.json(filteredClassListDetails);
+    } catch (error) {
+      console.error('Error in getRegisterCourse:', error);
+      res.status(500).json({ error: "Internal Có gì đó đã xảy ra! " });
+    }
+  };
