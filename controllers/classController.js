@@ -4,6 +4,7 @@ const Course =db.Course;
 const User = db.User;
 const Enrollment = db.Enrollment;
 const ClassListDTO = require('../DTO/ClassListDTO');
+const ClassDetailDTO = require('../DTO/ClassDetailDTO');
 const ClassRegisterByUserDTO = require('../DTO/ClassRegisterByUserDTO');
 
 exports.getAllClasses = async (req, res) => {
@@ -54,9 +55,12 @@ exports.getClassById = async (req, res) => {
   try {
     const classItem = await Class.findByPk(req.params.id);
     if (classItem) {
-      res.json(classItem);
-    } else {
-      res.status(404).json({ message: 'Không tìm thấy lớp' });
+      const courseDetails = await Course.findByPk(classItem.course_id);
+      const advisorDetails = await User.findByPk(classItem.advisor_id);
+
+      const classDetailDTO = new ClassDetailDTO(classItem, courseDetails, advisorDetails);
+
+      res.json(classDetailDTO);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
