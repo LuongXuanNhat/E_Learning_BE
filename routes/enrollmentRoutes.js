@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const enrollmentController = require('../controllers/enrollmentController');
+const enrollmentController = require("../controllers/enrollmentController");
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ const enrollmentController = require('../controllers/enrollmentController');
  *               items:
  *                 $ref: '#/components/schemas/Enrollment'
  */
-router.get('/', enrollmentController.getEnrollments);
+router.get("/", enrollmentController.getEnrollments);
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.get('/', enrollmentController.getEnrollments);
  *             schema:
  *               $ref: '#/components/schemas/Enrollment'
  */
-router.get('/:id', enrollmentController.getEnrollment);
+router.get("/:id", enrollmentController.getEnrollment);
 
 /**
  * @swagger
@@ -76,7 +76,10 @@ router.get('/:id', enrollmentController.getEnrollment);
  *       500:
  *         description: Internal server error
  */
-router.delete('/user/:student_id/course/:course_id', enrollmentController.cancelEnrollmentByUserIdAndCourseId);
+router.delete(
+  "/user/:student_id/course/:course_id/class/:class_id",
+  enrollmentController.cancelEnrollmentByUserIdAndCourseId
+);
 
 /**
  * @swagger
@@ -96,7 +99,7 @@ router.delete('/user/:student_id/course/:course_id', enrollmentController.cancel
  *       400:
  *         description: Bad request
  */
-router.post('/', enrollmentController.createEnrollment);
+router.post("/", enrollmentController.createEnrollment);
 
 /**
  * @swagger
@@ -116,6 +119,6 @@ router.post('/', enrollmentController.createEnrollment);
  *       404:
  *         description: Enrollment not found
  */
-router.delete('/:id', enrollmentController.deleteEnrollment);
+router.delete("/:id", enrollmentController.deleteEnrollment);
 
 module.exports = router;
