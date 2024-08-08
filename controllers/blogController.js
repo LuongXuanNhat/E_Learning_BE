@@ -4,6 +4,9 @@ const Blog = db.Blog;
 exports.getBlogs = async (req, res) => {
   try {
     const blogs = await Blog.findAll({
+      where: {
+        class_id: req.params.class_id,
+      },
       include: [
         {
           model: db.User,

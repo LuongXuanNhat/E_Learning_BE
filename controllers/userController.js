@@ -1,5 +1,5 @@
 const db = require("../models");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const User = db.User;
 const { Op } = require("sequelize"); // Import Op từ Sequelize
 exports.getUsers = async (req, res) => {

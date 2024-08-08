@@ -5,6 +5,7 @@ const User = db.User;
 const Enrollment = db.Enrollment;
 const ClassListDTO = require("../DTO/ClassListDTO");
 const ClassRegisterByUserDTO = require("../DTO/ClassRegisterByUserDTO");
+const { Op } = require("sequelize");
 
 exports.getAllClasses = async (req, res) => {
   try {
@@ -57,6 +58,85 @@ exports.getAllClasses = async (req, res) => {
   }
 };
 
+// Hàm 1: Lấy các lớp có course_id null
+exports.getClassesWithNullCourseId = async (req, res) => {
+  try {
+    const classes = await Class.findAll({
+      where: {
+        course_id: null,
+      },
+    });
+    const classListDetails = await Promise.all(
+      classes.map(async (classItem) => {
+        let userDetails = null;
+        if (classItem.advisor_id) {
+          userDetails = await User.findByPk(classItem.advisor_id);
+        }
+
+        return new ClassListDTO(classItem, null, userDetails, 0);
+      })
+    );
+
+    res.json(classListDetails);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Hàm 2: Lấy các lớp có course_id không null
+exports.getClassesWithNonNullCourseId = async (req, res) => {
+  try {
+    const classes = await Class.findAll({
+      where: {
+        course_id: {
+          [Op.not]: null,
+        },
+      },
+    });
+
+    const classListDetails = await Promise.all(
+      classes.map(async (classItem) => {
+        let courseDetails = null;
+        let userDetails = null;
+
+        if (classItem.advisor_id) {
+          userDetails = await User.findByPk(classItem.advisor_id);
+        }
+
+        courseDetails = await Course.findByPk(classItem.course_id);
+        const now = new Date();
+
+        if (
+          courseDetails &&
+          new Date(courseDetails.registration_deadline) < now &&
+          courseDetails.status === true
+        ) {
+          // Điều kiện hợp lệ, giữ nguyên courseDetails
+        } else {
+          // Không hợp lệ, đặt courseDetails là null
+          courseDetails = null;
+        }
+
+        if (courseDetails) {
+          return new ClassListDTO(classItem, courseDetails, userDetails);
+        }
+
+        // Trả về null nếu lớp không hợp lệ
+        return null;
+      })
+    );
+
+    // Lọc ra các lớp học null
+    const filteredClassListDetails = classListDetails.filter(
+      (item) => item !== null
+    );
+
+    res.json(filteredClassListDetails);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getClassById = async (req, res) => {
   try {
     const classItem = await Class.findByPk(req.params.id, {
@@ -76,6 +156,50 @@ exports.getClassById = async (req, res) => {
 
     if (classItem) {
       res.json(classItem);
+    } else {
+      res.status(404).json({ message: "Lớp học không tìm thấy!" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.getStudentClassById = async (req, res) => {
+  try {
+    const studentItems = await Enrollment.findAll({
+      where: { class_id: req.params.id },
+      include: [
+        {
+          model: User,
+          as: "Student",
+          attributes: ["user_id", "name"],
+        },
+      ],
+    });
+
+    if (studentItems) {
+      res.json(studentItems);
+    } else {
+      res.status(404).json({ message: "Lớp học không tìm thấy!" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMyClass = async (req, res) => {
+  try {
+    const studentItems = await Enrollment.findAll({
+      where: { student_id: req.params.student_id },
+      include: [
+        {
+          model: Class,
+          attributes: ["class_id", "name", "schedule"],
+        },
+      ],
+    });
+
+    if (studentItems) {
+      res.json(studentItems);
     } else {
       res.status(404).json({ message: "Lớp học không tìm thấy!" });
     }
@@ -151,11 +275,9 @@ exports.deleteClass = async (req, res) => {
 };
 exports.getRegisterCourse = async (req, res) => {
   try {
-    // console.log(">>find class");
     const classes = await Class.findAll();
-    // console.log("check class s")
     if (!classes || classes.length === 0) {
-      return res.status(404).json({ message: "No classes found" });
+      return res.status(200).json({ message: "Không có lớp được tạo" });
     }
 
     const classListDetails = await Promise.all(
@@ -173,7 +295,12 @@ exports.getRegisterCourse = async (req, res) => {
             console.log(`Course not found for class_id: ${classItem.class_id}`);
             return null;
           }
-          // console.log(">>> name: " + courseDetails.name);
+
+          // Đếm số lượng học viên đăng ký
+          totalRegister = await Enrollment.count({
+            where: { class_id: classItem.class_id },
+          });
+
           const now = new Date();
           const registrationDeadline = new Date(
             courseDetails.registration_deadline
@@ -182,13 +309,13 @@ exports.getRegisterCourse = async (req, res) => {
             registrationDeadline >= now && courseDetails.status == true;
           const isOutOfDate =
             registrationDeadline < now && courseDetails.status == null;
-          // Ghi log chi tiết lớp học và điều kiện đăng ký
-          // console.log(`Class: ${classItem.class_id}, Advisor: ${classItem.advisor_id}, Course: ${classItem.course_id}`);
-          // console.log(`Course Details:`, courseDetails);
-          // console.log(`Registration Deadline: ${registrationDeadline}, Now: ${now}`);
-          // console.log(`isWithinRegistration: ${isWithinRegistration}, isOutOfDate: ${isOutOfDate}`);
           if (isWithinRegistration || isOutOfDate) {
-            return new ClassListDTO(classItem, courseDetails, userDetails);
+            return new ClassListDTO(
+              classItem,
+              courseDetails,
+              userDetails,
+              totalRegister
+            );
           }
         }
 
@@ -207,7 +334,7 @@ exports.getRegisterCourse = async (req, res) => {
     res.json(filteredClassListDetails);
   } catch (error) {
     console.error("Error in getRegisterCourse:", error);
-    res.status(500).json({ error: "Internal Có gì đó đã xảy ra! " });
+    res.status(500).json({ error: "Có gì đó đã xảy ra! " });
   }
 };
 

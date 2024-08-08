@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const classController = require('../controllers/classController');
+const classController = require("../controllers/classController");
 
 /**
  * @swagger
@@ -25,7 +25,43 @@ const classController = require('../controllers/classController');
  *               items:
  *                 $ref: '#/components/schemas/Class'
  */
-router.get('/', classController.getAllClasses);
+router.get("/", classController.getAllClasses);
+
+/**
+ * @swagger
+ * /api/classes/1:
+ *   get:
+ *     summary: Retrieve a list of classes
+ *     tags: [Classes]
+ *     responses:
+ *       200:
+ *         description: A list of classes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Class'
+ */
+router.get("/1", classController.getClassesWithNullCourseId);
+
+/**
+ * @swagger
+ * /api/classes/2:
+ *   get:
+ *     summary: Retrieve a list of classes
+ *     tags: [Classes]
+ *     responses:
+ *       200:
+ *         description: A list of classes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Class'
+ */
+router.get("/2", classController.getClassesWithNonNullCourseId);
 
 /**
  * @swagger
@@ -43,7 +79,7 @@ router.get('/', classController.getAllClasses);
  *               items:
  *                 $ref: '#/components/schemas/Class'
  */
-router.get('/list',classController.getRegisterCourse);
+router.get("/list", classController.getRegisterCourse);
 /**
  * @swagger
  * /api/classes/{id}:
@@ -64,8 +100,51 @@ router.get('/list',classController.getRegisterCourse);
  *             schema:
  *               $ref: '#/components/schemas/Class'
  */
-router.get('/:id', classController.getClassById);
+router.get("/:id", classController.getClassById);
 
+/**
+ * @swagger
+ * /api/classes/students/{id}:
+ *   get:
+ *     summary: Retrieve a single class by ID
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single class
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Class'
+ */
+router.get("/students/:id", classController.getStudentClassById);
+
+/**
+ * @swagger
+ * /api/classes/myclasses/{student_id}:
+ *   get:
+ *     summary: Retrieve a single class by ID
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single class
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Class'
+ */
+router.get("/myclasses/:student_id", classController.getMyClass);
 
 /**
  * @swagger
@@ -92,8 +171,7 @@ router.get('/:id', classController.getClassById);
  *       404:
  *         description: No classes found
  */
-router.get('/register/:id', classController.getListclassRegisterbyUser);
-
+router.get("/register/:id", classController.getListclassRegisterbyUser);
 
 /**
  * @swagger
@@ -113,7 +191,7 @@ router.get('/register/:id', classController.getListclassRegisterbyUser);
  *       400:
  *         description: Bad request
  */
-router.post('/', classController.createClass);
+router.post("/", classController.createClass);
 
 /**
  * @swagger
@@ -141,8 +219,7 @@ router.post('/', classController.createClass);
  *       404:
  *         description: Không tìm thấy lớp
  */
-router.put('/:id', classController.updateClass);
-
+router.put("/:id", classController.updateClass);
 
 /**
  * @swagger
@@ -158,13 +235,13 @@ router.put('/:id', classController.updateClass);
  *           type: integer
  *     responses:
  *       200:
- *         description: get information success 
+ *         description: get information success
  *       400:
  *         description: Bad request
  *       404:
  *         description: Không tìm thấy lớp
  */
-router.get('/list/:id', classController.getRegisterdCourse);
+router.get("/list/:id", classController.getRegisterdCourse);
 
 /**
  * @swagger
@@ -184,8 +261,6 @@ router.get('/list/:id', classController.getRegisterdCourse);
  *       404:
  *         description: Không tìm thấy lớp
  */
-router.delete('/:id', classController.deleteClass);
-
-
+router.delete("/:id", classController.deleteClass);
 
 module.exports = router;
