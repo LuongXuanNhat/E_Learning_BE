@@ -66,7 +66,7 @@ exports.addMemberClass = async (req, res) => {
       };
       await Enrollment.create(enrollmentData);
     }
-    res.status(200);
+    res.status(200).send();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Có gì đó đã xảy ra! " });
