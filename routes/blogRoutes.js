@@ -11,7 +11,7 @@ const blogController = require("../controllers/blogController");
 
 /**
  * @swagger
- * /api/blogs/:class_id
+ * /api/blogs/class_id:
  *   get:
  *     summary: Retrieve a list of blogs
  *     tags: [Blogs]

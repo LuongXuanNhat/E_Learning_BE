@@ -53,6 +53,26 @@ exports.createEnrollment = async (req, res) => {
   }
 };
 
+exports.addMemberClass = async (req, res) => {
+  try {
+    const { data, class_id, course_id } = req.body;
+    for (const user of data) {
+      const enrollmentData = {
+        student_id: user.user_id,
+        class_id: class_id,
+        course_id: course_id,
+        created_at: new Date(),
+        registration_date: new Date(),
+      };
+      await Enrollment.create(enrollmentData);
+    }
+    res.status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Có gì đó đã xảy ra! " });
+  }
+};
+
 exports.updateEnrollment = async (req, res) => {
   try {
     const enrollment = await Enrollment.findByPk(req.params.id);

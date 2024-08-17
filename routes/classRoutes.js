@@ -132,7 +132,7 @@ router.get("/students/:id", classController.getStudentClassById);
  *     tags: [Classes]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: student_id
  *         required: true
  *         schema:
  *           type: integer

@@ -194,10 +194,22 @@ exports.getMyClass = async (req, res) => {
         {
           model: Class,
           attributes: ["class_id", "name", "schedule"],
+          include: [
+            {
+              model: Course,
+              attributes: [
+                "name",
+                "registration_deadline",
+                "start_date",
+                "end_date",
+              ],
+            },
+          ],
         },
       ],
     });
 
+    console.log(studentItems);
     if (studentItems) {
       res.json(studentItems);
     } else {

@@ -1,10 +1,17 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const User = db.User;
-const { Op } = require("sequelize"); // Import Op từ Sequelize
+const { Op, where } = require("sequelize"); // Import Op từ Sequelize
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      where: {
+        chuc_vu: {
+          [Op.ne]: "Sinh viên",
+        },
+      },
+    });
+
     res.json(users);
   } catch (error) {
     console.error(error);

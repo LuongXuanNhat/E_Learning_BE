@@ -103,6 +103,26 @@ router.post("/", enrollmentController.createEnrollment);
 
 /**
  * @swagger
+ * /api/enrollments/addMember:
+ *   post:
+ *     summary: Create a new enrollment
+ *     tags: [Enrollments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Enrollment'
+ *     responses:
+ *       201:
+ *         description: Created
+ *       400:
+ *         description: Bad request
+ */
+router.post("/addMember", enrollmentController.addMemberClass);
+
+/**
+ * @swagger
  * /api/enrollments/{id}:
  *   delete:
  *     summary: Delete an enrollment by ID
