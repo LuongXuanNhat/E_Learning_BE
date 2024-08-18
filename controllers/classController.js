@@ -220,6 +220,36 @@ exports.getMyClass = async (req, res) => {
   }
 };
 
+exports.getTeacherClass = async (req, res) => {
+  try {
+    const studentItems = await Class.findAll({
+      where: { advisor_id: req.params.teacher_id },
+      include: [
+        {
+          model: Course,
+          attributes: [
+            "course_id",
+            "name",
+            "registration_deadline",
+            "start_date",
+            "end_date",
+          ],
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+
+    console.log(studentItems);
+    if (studentItems) {
+      res.json(studentItems);
+    } else {
+      res.status(404).json({ message: "Lớp học không tìm thấy!" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createClass = async (req, res) => {
   try {
     if (!req.body.create_at) {

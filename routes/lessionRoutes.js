@@ -11,7 +11,7 @@ const LessionController = require("../controllers/lessionController");
 
 /**
  * @swagger
- * /api/Lessions:
+ * /api/Lessions/class/{id}:
  *   get:
  *     summary: Retrieve a list of Lessions
  *     tags: [Lessions]
@@ -25,7 +25,7 @@ const LessionController = require("../controllers/lessionController");
  *               items:
  *                 $ref: '#/components/schemas/Lession'
  */
-router.get("/", LessionController.getLessionVideos);
+router.get("/class/:id", LessionController.getLessionVideos);
 
 /**
  * @swagger

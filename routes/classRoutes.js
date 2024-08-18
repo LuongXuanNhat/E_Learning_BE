@@ -148,6 +148,28 @@ router.get("/myclasses/:student_id", classController.getMyClass);
 
 /**
  * @swagger
+ * /api/classes/teacherclasses/{teacher_id}:
+ *   get:
+ *     summary: Retrieve a single class by ID
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: teacher_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single class
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Class'
+ */
+router.get("/teacherclasses/:teacher_id", classController.getTeacherClass);
+
+/**
+ * @swagger
  * /api/classes/register/{id}:
  *   get:
  *     summary: Retrieve classes registered by user
