@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const blogController = require('../controllers/blogController');
+const blogController = require("../controllers/blogController");
 
 /**
  * @swagger
@@ -11,7 +11,7 @@ const blogController = require('../controllers/blogController');
 
 /**
  * @swagger
- * /api/blogs:
+ * /api/blogs/class_id:
  *   get:
  *     summary: Retrieve a list of blogs
  *     tags: [Blogs]
@@ -25,7 +25,7 @@ const blogController = require('../controllers/blogController');
  *               items:
  *                 $ref: '#/components/schemas/Blog'
  */
-router.get('/', blogController.getBlogs);
+router.get("/:class_id", blogController.getBlogs);
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.get('/', blogController.getBlogs);
  *             schema:
  *               $ref: '#/components/schemas/Blog'
  */
-router.get('/:id', blogController.getBlog);
+router.get("/:id", blogController.getBlog);
 
 /**
  * @swagger
@@ -67,7 +67,7 @@ router.get('/:id', blogController.getBlog);
  *       400:
  *         description: Bad request
  */
-router.post('/', blogController.createBlog);
+router.post("/", blogController.createBlog);
 
 /**
  * @swagger
@@ -87,6 +87,6 @@ router.post('/', blogController.createBlog);
  *       404:
  *         description: Blog not found
  */
-router.delete('/:id', blogController.deleteBlog);
+router.delete("/:id", blogController.deleteBlog);
 
 module.exports = router;
