@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     Class.hasMany(models.Grade, { foreignKey: "class_id" });
     Class.hasMany(models.ChatRoom, { foreignKey: "class_id" });
     Class.hasMany(models.Blog, { foreignKey: "class_id" });
+    Class.hasMany(models.LessionVideo, { foreignKey: "class_id" });
   };
 
   return Class;

@@ -95,7 +95,7 @@ exports.deleteEnrollment = async (req, res) => {
       await enrollment.destroy();
       res.status(204).send();
     } else {
-      res.status(404).json({ message: "Enrollment not found" });
+      res.status(404).json({ message: "Không tìm thấy dữ liệu" });
     }
   } catch (error) {
     console.error(error);
