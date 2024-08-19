@@ -29,7 +29,7 @@ router.get("/", classController.getAllClasses);
 
 /**
  * @swagger
- * /api/classes/1:
+ * /api/classes/t/1:
  *   get:
  *     summary: Retrieve a list of classes
  *     tags: [Classes]
@@ -43,11 +43,11 @@ router.get("/", classController.getAllClasses);
  *               items:
  *                 $ref: '#/components/schemas/Class'
  */
-router.get("/1", classController.getClassesWithNullCourseId);
+router.get("/t/1", classController.getClassesWithNullCourseId);
 
 /**
  * @swagger
- * /api/classes/2:
+ * /api/classes/t/2:
  *   get:
  *     summary: Retrieve a list of classes
  *     tags: [Classes]
@@ -61,7 +61,7 @@ router.get("/1", classController.getClassesWithNullCourseId);
  *               items:
  *                 $ref: '#/components/schemas/Class'
  */
-router.get("/2", classController.getClassesWithNonNullCourseId);
+router.get("/t/2", classController.getClassesWithNonNullCourseId);
 
 /**
  * @swagger
@@ -145,6 +145,28 @@ router.get("/students/:id", classController.getStudentClassById);
  *               $ref: '#/components/schemas/Class'
  */
 router.get("/myclasses/:student_id", classController.getMyClass);
+
+/**
+ * @swagger
+ * /api/classes/teacherclasses/{teacher_id}:
+ *   get:
+ *     summary: Retrieve a single class by ID
+ *     tags: [Classes]
+ *     parameters:
+ *       - in: path
+ *         name: teacher_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single class
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Class'
+ */
+router.get("/teacherclasses/:teacher_id", classController.getTeacherClass);
 
 /**
  * @swagger

@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const feedbackController = require('../controllers/feedbackController');
+const feedbackController = require("../controllers/feedbackController");
 
 /**
  * @swagger
@@ -11,7 +11,7 @@ const feedbackController = require('../controllers/feedbackController');
 
 /**
  * @swagger
- * /api/feedbacks:
+ * /api/feedbacks/class/{id}:
  *   get:
  *     summary: Retrieve a list of feedbacks
  *     tags: [Feedbacks]
@@ -25,7 +25,7 @@ const feedbackController = require('../controllers/feedbackController');
  *               items:
  *                 $ref: '#/components/schemas/Feedback'
  */
-router.get('/', feedbackController.getFeedbacks);
+router.get("/class/:id", feedbackController.getFeedbacks);
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.get('/', feedbackController.getFeedbacks);
  *             schema:
  *               $ref: '#/components/schemas/Feedback'
  */
-router.get('/:id', feedbackController.getFeedback);
+router.get("/:id", feedbackController.getFeedback);
 
 /**
  * @swagger
@@ -67,7 +67,7 @@ router.get('/:id', feedbackController.getFeedback);
  *       400:
  *         description: Bad request
  */
-router.post('/', feedbackController.createFeedback);
+router.post("/", feedbackController.createFeedback);
 
 /**
  * @swagger
@@ -87,6 +87,6 @@ router.post('/', feedbackController.createFeedback);
  *       404:
  *         description: Feedback not found
  */
-router.delete('/:id', feedbackController.deleteFeedback);
+router.delete("/:id", feedbackController.deleteFeedback);
 
 module.exports = router;
