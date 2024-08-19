@@ -453,7 +453,7 @@ exports.getListclassRegisterbyUser = async (req, res) => {
     const classes = await Class.findAll();
     // console.log("check class s")
     if (!classes || classes.length === 0) {
-      return res.status(404).json({ message: "No classes found" });
+      return res.status(200).json([]);
     }
 
     const classListDetails = await Promise.all(
