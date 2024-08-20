@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const attendanceController = require('../controllers/attendanceController');
+const attendanceController = require("../controllers/attendanceController");
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ const attendanceController = require('../controllers/attendanceController');
  *               items:
  *                 $ref: '#/components/schemas/Attendance'
  */
-router.get('/class/:id', attendanceController.getAttendances);
+router.get("/class/:id", attendanceController.getAttendances);
 
 /**
  * @swagger
@@ -47,11 +47,11 @@ router.get('/class/:id', attendanceController.getAttendances);
  *             schema:
  *               $ref: '#/components/schemas/Attendance'
  */
-router.get('/:id', attendanceController.getAttendance);
+// router.get('/:id', attendanceController.getAttendance);
 
 /**
  * @swagger
- * /api/attendances/{id}:
+ * /api/attendances/myattentdence/{id}:/{user_id}:
  *   get:
  *     summary: Retrieve a single attendance by ID
  *     tags: [Attendances]
@@ -69,7 +69,10 @@ router.get('/:id', attendanceController.getAttendance);
  *             schema:
  *               $ref: '#/components/schemas/Attendance'
  */
-router.get('/:id', attendanceController.getAttendance);
+router.get(
+  "/myattentdence/:id/:user_id",
+  attendanceController.checkMyAttendance
+);
 
 /**
  * @swagger
@@ -89,7 +92,7 @@ router.get('/:id', attendanceController.getAttendance);
  *       400:
  *         description: Bad request
  */
-router.post('/', attendanceController.createAttendance);
+router.post("/", attendanceController.createAttendance);
 
 /**
  * @swagger
@@ -117,7 +120,7 @@ router.post('/', attendanceController.createAttendance);
  *       404:
  *         description: Attendance not found
  */
-router.get('/:id', attendanceController.checkAttendance);
+router.get("/:id", attendanceController.checkAttendance);
 
 /**
  * @swagger
@@ -137,6 +140,6 @@ router.get('/:id', attendanceController.checkAttendance);
  *       404:
  *         description: Attendance not found
  */
-router.delete('/:id', attendanceController.deleteAttendance);
+router.delete("/:id", attendanceController.deleteAttendance);
 
 module.exports = router;
