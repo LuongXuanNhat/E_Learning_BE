@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const attendanceController = require('../controllers/attendanceController');
+const attendanceController = require("../controllers/attendanceController");
 
 /**
  * @swagger
@@ -11,7 +11,7 @@ const attendanceController = require('../controllers/attendanceController');
 
 /**
  * @swagger
- * /api/attendances:
+ * /api/attendances/class/id:
  *   get:
  *     summary: Retrieve a list of attendances
  *     tags: [Attendances]
@@ -25,7 +25,7 @@ const attendanceController = require('../controllers/attendanceController');
  *               items:
  *                 $ref: '#/components/schemas/Attendance'
  */
-router.get('/', attendanceController.getAttendances);
+router.get("/class/:id", attendanceController.getAttendances);
 
 /**
  * @swagger
@@ -47,7 +47,32 @@ router.get('/', attendanceController.getAttendances);
  *             schema:
  *               $ref: '#/components/schemas/Attendance'
  */
-router.get('/:id', attendanceController.getAttendance);
+// router.get('/:id', attendanceController.getAttendance);
+
+/**
+ * @swagger
+ * /api/attendances/myattentdence/{id}:/{user_id}:
+ *   get:
+ *     summary: Retrieve a single attendance by ID
+ *     tags: [Attendances]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single attendance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Attendance'
+ */
+router.get(
+  "/myattentdence/:id/:user_id",
+  attendanceController.checkMyAttendance
+);
 
 /**
  * @swagger
@@ -67,7 +92,7 @@ router.get('/:id', attendanceController.getAttendance);
  *       400:
  *         description: Bad request
  */
-router.post('/', attendanceController.createAttendance);
+router.post("/", attendanceController.createAttendance);
 
 /**
  * @swagger
@@ -95,7 +120,7 @@ router.post('/', attendanceController.createAttendance);
  *       404:
  *         description: Attendance not found
  */
-router.put('/:id', attendanceController.updateAttendance);
+router.get("/:id", attendanceController.checkAttendance);
 
 /**
  * @swagger
@@ -115,6 +140,6 @@ router.put('/:id', attendanceController.updateAttendance);
  *       404:
  *         description: Attendance not found
  */
-router.delete('/:id', attendanceController.deleteAttendance);
+router.delete("/:id", attendanceController.deleteAttendance);
 
 module.exports = router;
