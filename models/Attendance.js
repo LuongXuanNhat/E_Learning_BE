@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     student_id: { type: DataTypes.INTEGER, references: { model: 'users', key: 'user_id' }},
     date: DataTypes.DATE,
     status: DataTypes.STRING,
-    created_at: DataTypes.DATE,
+    created_at: DataTypes.DATE, 
   }, {
     timestamps: false,
     tableName: 'attendances'

@@ -1,7 +1,7 @@
 const db = require("../models");
 const Lession = db.LessionVideo;
 const { Op } = require("sequelize");
-
+ 
 exports.getLessionVideos = async (req, res) => {
   try {
     const LessionVideos = await Lession.findAll({
