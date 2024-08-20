@@ -11,7 +11,7 @@ const attendanceController = require('../controllers/attendanceController');
 
 /**
  * @swagger
- * /api/attendances:
+ * /api/attendances/class/id:
  *   get:
  *     summary: Retrieve a list of attendances
  *     tags: [Attendances]
@@ -25,7 +25,29 @@ const attendanceController = require('../controllers/attendanceController');
  *               items:
  *                 $ref: '#/components/schemas/Attendance'
  */
-router.get('/', attendanceController.getAttendances);
+router.get('/class/:id', attendanceController.getAttendances);
+
+/**
+ * @swagger
+ * /api/attendances/{id}:
+ *   get:
+ *     summary: Retrieve a single attendance by ID
+ *     tags: [Attendances]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single attendance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Attendance'
+ */
+router.get('/:id', attendanceController.getAttendance);
 
 /**
  * @swagger
@@ -95,7 +117,7 @@ router.post('/', attendanceController.createAttendance);
  *       404:
  *         description: Attendance not found
  */
-router.put('/:id', attendanceController.updateAttendance);
+router.get('/:id', attendanceController.checkAttendance);
 
 /**
  * @swagger
