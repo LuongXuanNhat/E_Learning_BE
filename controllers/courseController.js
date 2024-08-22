@@ -18,7 +18,7 @@ exports.getCourse = async (req, res) => {
     if (course) {
       res.json(course);
     } else {
-      res.status(404).json({ message: "Course not found" });
+      res.status(404).json({ message: "Không tìm thấy khóa học này" });
     }
   } catch (error) {
     console.error(error);
@@ -43,7 +43,7 @@ exports.updateCourse = async (req, res) => {
       await course.update(req.body);
       res.json(course);
     } else {
-      res.status(404).json({ message: "Course not found" });
+      res.status(404).json({ message: "Không tìm thấy khóa học này" });
     }
   } catch (error) {
     console.error(error);
@@ -58,7 +58,7 @@ exports.deleteCourse = async (req, res) => {
       await course.destroy();
       res.status(204).send();
     } else {
-      res.status(404).json({ message: "Course not found" });
+      res.status(404).json({ message: "Không tìm thấy khóa học này" });
     }
   } catch (error) {
     console.error(error);

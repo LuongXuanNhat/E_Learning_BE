@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const enrollmentController = require('../controllers/enrollmentController');
+const enrollmentController = require("../controllers/enrollmentController");
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ const enrollmentController = require('../controllers/enrollmentController');
  *               items:
  *                 $ref: '#/components/schemas/Enrollment'
  */
-router.get('/', enrollmentController.getEnrollments);
+router.get("/", enrollmentController.getEnrollments);
 
 /**
  * @swagger
@@ -47,7 +47,39 @@ router.get('/', enrollmentController.getEnrollments);
  *             schema:
  *               $ref: '#/components/schemas/Enrollment'
  */
-router.get('/:id', enrollmentController.getEnrollment);
+router.get("/:id", enrollmentController.getEnrollment);
+
+/**
+ * @swagger
+ * /api/enrollments/user/{student_id}/course/{course_id}:
+ *   delete:
+ *     summary: Hủy đăng kí khóa học
+ *     tags: [Enrollments]
+ *     parameters:
+ *       - in: path
+ *         name: student_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *       - in: path
+ *         name: course_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course
+ *     responses:
+ *       204:
+ *         description: Enrollment successfully canceled
+ *       404:
+ *         description: Enrollment not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete(
+  "/user/:student_id/course/:course_id/class/:class_id",
+  enrollmentController.cancelEnrollmentByUserIdAndCourseId
+);
 
 /**
  * @swagger
@@ -67,7 +99,27 @@ router.get('/:id', enrollmentController.getEnrollment);
  *       400:
  *         description: Bad request
  */
-router.post('/', enrollmentController.createEnrollment);
+router.post("/", enrollmentController.createEnrollment);
+
+/**
+ * @swagger
+ * /api/enrollments/addMember:
+ *   post:
+ *     summary: Create a new enrollment
+ *     tags: [Enrollments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Enrollment'
+ *     responses:
+ *       201:
+ *         description: Created
+ *       400:
+ *         description: Bad request
+ */
+router.post("/addMember", enrollmentController.addMemberClass);
 
 /**
  * @swagger
@@ -87,6 +139,6 @@ router.post('/', enrollmentController.createEnrollment);
  *       404:
  *         description: Enrollment not found
  */
-router.delete('/:id', enrollmentController.deleteEnrollment);
+router.delete("/:id", enrollmentController.deleteEnrollment);
 
 module.exports = router;
