@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Grade.associate = function (models) {
     Grade.belongsTo(models.Class, { foreignKey: "class_id" });
-    Grade.belongsTo(models.User, { foreignKey: "student_id" });
+    Grade.belongsTo(models.User, { as: "Student", foreignKey: "student_id" });
   };
 
   return Grade;

@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const gradeController = require('../controllers/gradeController');
+const gradeController = require("../controllers/gradeController");
 
 /**
  * @swagger
@@ -11,7 +11,7 @@ const gradeController = require('../controllers/gradeController');
 
 /**
  * @swagger
- * /api/grades:
+ * /api/grades/id:
  *   get:
  *     summary: Retrieve a list of grades
  *     tags: [Grades]
@@ -25,11 +25,29 @@ const gradeController = require('../controllers/gradeController');
  *               items:
  *                 $ref: '#/components/schemas/Grade'
  */
-router.get('/', gradeController.getGrades);
+router.get("/:id", gradeController.getGrades);
 
 /**
  * @swagger
- * /api/grades/{id}:
+ * /api/grades/update/id:
+ *   get:
+ *     summary: Retrieve a list of grades
+ *     tags: [Grades]
+ *     responses:
+ *       200:
+ *         description: A list of grades
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Grade'
+ */
+router.get("/update/:id", gradeController.updateStudentGrades);
+
+/**
+ * @swagger
+ * /api/grades/update:
  *   get:
  *     summary: Retrieve a single grade by ID
  *     tags: [Grades]
@@ -47,7 +65,7 @@ router.get('/', gradeController.getGrades);
  *             schema:
  *               $ref: '#/components/schemas/Grade'
  */
-router.get('/:id', gradeController.getGrade);
+router.post("/update", gradeController.updateGrades);
 
 /**
  * @swagger
@@ -67,7 +85,7 @@ router.get('/:id', gradeController.getGrade);
  *       400:
  *         description: Bad request
  */
-router.post('/', gradeController.createGrade);
+router.post("/", gradeController.createGrade);
 
 /**
  * @swagger
@@ -95,7 +113,7 @@ router.post('/', gradeController.createGrade);
  *       404:
  *         description: Grade not found
  */
-router.put('/:id', gradeController.updateGrade);
+// router.put("/:id", gradeController.updateGrade);
 
 /**
  * @swagger
@@ -115,6 +133,6 @@ router.put('/:id', gradeController.updateGrade);
  *       404:
  *         description: Grade not found
  */
-router.delete('/:id', gradeController.deleteGrade);
+router.delete("/:id", gradeController.deleteGrade);
 
 module.exports = router;
