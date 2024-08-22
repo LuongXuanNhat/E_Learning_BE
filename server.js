@@ -66,9 +66,9 @@ app.listen(PORT, async () => {
     console.log("Connection has been established successfully.");
     console.log(`Server is running on port ${PORT}`);
     // Synchronize database schema
-    //  await sequelize.sync({ alter: true });
-    //  console.log('Database synchronized successfully.');
-    //  console.log(`Server is running on port ${PORT}`);
+    await sequelize.sync({ alter: true });
+    console.log("Database synchronized successfully.");
+    console.log(`Server is running on port ${PORT}`);
   } catch (error) {
     console.error("Unable to connect to the database or synchronize:", error);
   }

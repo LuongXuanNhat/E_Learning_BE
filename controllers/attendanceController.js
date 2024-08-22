@@ -146,9 +146,9 @@ exports.createAttendance = async (req, res) => {
     } else {
       if (await checkAttendanceToday(class_id)) {
         await Attendance.create(req.body);
-        res.status(200).json({ message: "Điểm danh thành công." });
+        res.status(200).json("Điểm danh thành công." );
       } else {
-        res.status(200).json({ message: "Bạn không thể điểm danh." });
+        res.status(200).json("Bạn không thể điểm danh." );
       }
     }
   } catch (error) {
